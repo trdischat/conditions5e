@@ -94,7 +94,7 @@ function patchClass(klass, func, line_number, line, new_line) {
 }
 
 function patchCombatTrackerClass() {
-  newClass = patchClass(CombatTracker, CombatTracker.prototype._onCombatantControl, 18,
+  newClass = patchClass(CombatTracker, CombatTracker.prototype._onCombatantControl, 20,
     `if ( isDefeated && !token.data.overlayEffect ) token.toggleOverlay(CONFIG.controlIcons.defeated);`,
     `if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);`);
   if (!newClass) return;
@@ -122,10 +122,13 @@ Token.prototype._updateHealthOverlay = function(tok) {
   }
 };
 
-Hooks.on("updateToken", (object, parentId, updated) => {
-  object._updateHealthOverlay(object);
+// This hook is required for Tokens NOT linked to an Actor
+Hooks.on("updateToken", (scene, sceneID, update, tokenData, userId) => {
+  let token = canvas.tokens.get(update._id);
+  token._updateHealthOverlay(token);
 });
 
+// This hook is required for Tokens linked to an Actor
 Hooks.on("updateActor", (entity, updated) => {
   entity.getActiveTokens(true).map(x => x._updateHealthOverlay(x));
 });
