@@ -70,40 +70,39 @@ CONFIG.controlIcons = {
     defeated: "modules/conditions5e/icons/dead.svg"
   };
   
-/**
- * Utility function used by patch functions to alter specific lines in a class
- * @param {Class} klass           Class to be patched
- * @param {Function} func         Function in the class to be patched
- * @param {Number} line_number    Line within the function to be patched
- * @param {String} line           Existing text of line to be patched
- * @param {String} new_line       Replacement text for line to be patched
- * @returns {Class}              Revised class
- */
-function patchClass(klass, func, line_number, line, new_line) {
-  let funcStr = func.toString()
-  let lines = funcStr.split("\n")
-  if (lines[line_number].trim() == line.trim()) {
-    lines[line_number] = lines[line_number].replace(line, new_line);
-    classStr = klass.toString()
-    fixedClass = classStr.replace(funcStr, lines.join("\n"))
-    return Function('"use strict";return (' + fixedClass + ')')();
-  }
-  else {
-    console.log("Function has wrong content at line ", line_number, " : ", lines[line_number].trim(), " != ", line.trim(), "\n", funcStr)
-  }
-}
+CombatTracker.prototype._onCombatantControl = async function(event) {
+  event.preventDefault();
+  const btn = event.currentTarget;
+  const li = btn.closest(".combatant");
+  const c = this.combat.getCombatant(li.dataset.combatantId);
 
-function patchCombatTrackerClass() {
-  newClass = patchClass(CombatTracker, CombatTracker.prototype._onCombatantControl, 20,
-    `if ( isDefeated && !token.data.overlayEffect ) token.toggleOverlay(CONFIG.controlIcons.defeated);`,
-    `if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);`);
-  if (!newClass) return;
-  CombatTracker = newClass
-}
+  // Switch control action
+  switch (btn.dataset.control) {
 
-if (patchedCombatTrackerClass == undefined) {
-  patchCombatTrackerClass();
-  var patchedCombatTrackerClass = true;
+    // Toggle combatant visibility
+    case "toggleHidden":
+      await this.combat.updateCombatant({_id: c._id, hidden: !c.hidden});
+      break;
+
+    // Toggle combatant defeated flag
+    case "toggleDefeated":
+      let isDefeated = !c.defeated;
+      await this.combat.updateCombatant({_id: c._id, defeated: isDefeated});
+      const token = canvas.tokens.get(c.tokenId);
+      if ( token ) {
+        if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);
+        else if ( !isDefeated && token.data.overlayEffect === CONFIG.controlIcons.defeated ) token.toggleOverlay(null);
+      }
+      break;
+
+    // Roll combatant initiative
+    case "rollInitiative":
+      await this.combat.rollInitiative([c._id]);
+      break;
+  }
+
+  // Render tracker updates
+  this.render();  
 }
 
 Token.prototype._updateHealthOverlay = function(tok) {
