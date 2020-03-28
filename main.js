@@ -90,7 +90,7 @@ CombatTracker.prototype._onCombatantControl = async function(event) {
       await this.combat.updateCombatant({_id: c._id, defeated: isDefeated});
       const token = canvas.tokens.get(c.tokenId);
       if ( token ) {
-        if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);
+        if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);   // ! Changed line
         else if ( !isDefeated && token.data.overlayEffect === CONFIG.controlIcons.defeated ) token.toggleOverlay(null);
       }
       break;
