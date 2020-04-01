@@ -56,20 +56,11 @@ CONFIG.conditionTypes = {
   "wounded": "Wounded"
 };
 
-  /**
-   * The control icons used for rendering common HUD operations
-   * @type {Object}
-   */
-CONFIG.controlIcons = {
-    combat: "icons/svg/combat.svg",
-    visibility: "modules/conditions5e/icons/invisible.svg",
-    effects: "icons/svg/aura.svg",
-    lock: "icons/svg/padlock.svg",
-    up: "icons/svg/up.svg",
-    down: "icons/svg/down.svg",
-    defeated: "modules/conditions5e/icons/dead.svg"
-  };
-  
+// Replace selected control icons
+CONFIG.controlIcons.visibility = "modules/conditions5e/icons/invisible.svg";
+CONFIG.controlIcons.defeated = "modules/conditions5e/icons/dead.svg";
+
+// Edit to function to coordinate with token overlay
 CombatTracker.prototype._onCombatantControl = async function(event) {
   event.preventDefault();
   const btn = event.currentTarget;
@@ -103,8 +94,9 @@ CombatTracker.prototype._onCombatantControl = async function(event) {
 
   // Render tracker updates
   this.render();  
-}
+};
 
+// Function to use token overlay to show status as wounded, unconscious, or dead
 Token.prototype._updateHealthOverlay = function(tok) {
   let maxHP = tok.actor.data.data.attributes.hp.max;
   let curHP = tok.actor.data.data.attributes.hp.value;
