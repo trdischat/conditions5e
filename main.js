@@ -116,10 +116,10 @@ Token.prototype._updateHealthOverlay = function(tok) {
 // This hook is required for Tokens NOT linked to an Actor
 Hooks.on("updateToken", (scene, sceneID, update, tokenData, userId) => {
   let token = canvas.tokens.get(update._id);
-  token._updateHealthOverlay(token);
+  if (token.owner) token._updateHealthOverlay(token);
 });
 
 // This hook is required for Tokens linked to an Actor
 Hooks.on("updateActor", (entity, updated) => {
-  entity.getActiveTokens(true).map(x => x._updateHealthOverlay(x));
+  if (entity.owner) entity.getActiveTokens(true).map(x => x._updateHealthOverlay(x));
 });
