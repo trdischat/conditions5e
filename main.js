@@ -63,6 +63,7 @@ CONFIG.controlIcons.defeated = "modules/conditions5e/icons/dead.svg";
 // Edit to function to coordinate with token overlay
 CombatTracker.prototype._onCombatantControl = async function(event) {
   event.preventDefault();
+  event.stopPropagation();
   const btn = event.currentTarget;
   const li = btn.closest(".combatant");
   const c = this.combat.getCombatant(li.dataset.combatantId);
