@@ -60,42 +60,15 @@ CONFIG.conditionTypes = {
 CONFIG.controlIcons.visibility = "modules/conditions5e/icons/invisible.svg";
 CONFIG.controlIcons.defeated = "modules/conditions5e/icons/dead.svg";
 
-// Edit to function to coordinate with token overlay
-CombatTracker.prototype._onCombatantControl = async function(event) {
-  event.preventDefault();
-  event.stopPropagation();
-  const btn = event.currentTarget;
-  const li = btn.closest(".combatant");
-  const c = this.combat.getCombatant(li.dataset.combatantId);
-
-  // Switch control action
-  switch (btn.dataset.control) {
-
-    // Toggle combatant visibility
-    case "toggleHidden":
-      await this.combat.updateCombatant({_id: c._id, hidden: !c.hidden});
-      break;
-
-    // Toggle combatant defeated flag
-    case "toggleDefeated":
-      let isDefeated = !c.defeated;
-      await this.combat.updateCombatant({_id: c._id, defeated: isDefeated});
-      const token = canvas.tokens.get(c.tokenId);
-      if ( token ) {
-        if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);   // ! Changed line
-        else if ( !isDefeated && token.data.overlayEffect === CONFIG.controlIcons.defeated ) token.toggleOverlay(null);
-      }
-      break;
-
-    // Roll combatant initiative
-    case "rollInitiative":
-      await this.combat.rollInitiative([c._id]);
-      break;
-  }
-
-  // Render tracker updates
-  this.render();  
-};
+// Patch CombatTracker to work with token HUD overlay
+Hooks.once("ready", function() {
+  let newClass = CombatTracker;
+  newClass = trPatchLib.patchMethod(newClass, "_onCombatantControl", 21,
+    `if ( isDefeated && !token.data.overlayEffect ) token.toggleOverlay(CONFIG.controlIcons.defeated);`,
+    `if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);`);
+  if (!newClass) return;
+  CombatTracker.prototype._onCombatantControl = newClass.prototype._onCombatantControl;
+});
 
 // Function to use token overlay to show status as wounded, unconscious, or dead
 Token.prototype._updateHealthOverlay = function(tok) {
