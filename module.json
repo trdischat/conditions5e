@@ -4,7 +4,7 @@
   "description": "This module alters the effects in the Token HUD for D&D 5e conditions.",
   "version": "0.4.5.6",
   "minimumCoreVersion": "0.4.5",
-  "compatibleCoreVersion": "0.5.7",
+  "compatibleCoreVersion": "0.6.0",
   "author": "trdischat",
   "systems": ["dnd5e"],
   "scripts": ["main.js", "patchlib.js"],
