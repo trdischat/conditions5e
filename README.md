@@ -10,5 +10,3 @@ As DM go to the `Manage Modules` options menu in the Game Settings for your Worl
 This Foundry VTT module, written by trdischat, is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).  Icons from game-icons.net are licensed under a [Creative Commons Attribution 3.0 International License](http://creativecommons.org/licenses/by/3.0/).  Icons from svgrepo.com are licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).  Icons from flaticon.com are licensed under the [Flaticon Basic License](https://file000.flaticon.com/downloads/license/license.pdf).
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development v 0.1.6](http://foundryvtt.com/pages/license.html).
-
-TEST
