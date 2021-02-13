@@ -28,7 +28,7 @@ CONFIG.statusEffects = [
   "modules/conditions5e/icons/diseased.svg",
   "modules/conditions5e/icons/exhaustion5.svg"
 ];
-  
+
 // Replace selected control icons
 CONFIG.controlIcons.visibility = "modules/conditions5e/icons/invisible.svg";
 CONFIG.controlIcons.defeated = "modules/conditions5e/icons/dead.svg";
@@ -36,7 +36,7 @@ CONFIG.controlIcons.defeated = "modules/conditions5e/icons/dead.svg";
 // Patch CombatTracker to work with token HUD overlay
 // toggleOverlay deprecated in 0.7.4
 // Patch not required after 0.7.4
-Hooks.once("ready", function() {
+Hooks.once("ready", function () {
   if (isNewerVersion('0.7.4', game.data.version)) {
     let newClass = CombatTracker;
     newClass = trPatchLib.patchMethod(newClass, "_onCombatantControl", 21,
@@ -44,8 +44,7 @@ Hooks.once("ready", function() {
       `if ( isDefeated && token.data.overlayEffect !== CONFIG.controlIcons.defeated ) token.toggleOverlay(CONFIG.controlIcons.defeated);`);
     if (!newClass) return;
     CombatTracker.prototype._onCombatantControl = newClass.prototype._onCombatantControl;
-  }
-  else if (isNewerVersion('0.7.5', game.data.version)) {
+  } else if (isNewerVersion('0.7.5', game.data.version)) {
     let newClass = CombatTracker;
     newClass = trPatchLib.patchMethod(newClass, "_onCombatantControl", 21,
       `if ( isDefeated && !token.data.overlayEffect ) token.toggleEffect(CONFIG.controlIcons.defeated, {overlay: true});`,
@@ -56,24 +55,22 @@ Hooks.once("ready", function() {
 });
 
 // Function to use token overlay to show status as wounded, unconscious, or dead
-Token.prototype._updateHealthOverlay = function(tok) {
+Token.prototype._updateHealthOverlay = function (tok) {
   let maxHP = tok.actor.data.data.attributes.hp.max;
   let curHP = tok.actor.data.data.attributes.hp.value;
   let priorHealth = tok.data.overlayEffect;
   let newHealth = null;
-  if ( curHP <= 0 ) {
-    if ( priorHealth === "modules/conditions5e/icons/dead.svg" ) newHealth = priorHealth;
+  if (curHP <= 0) {
+    if (priorHealth === "modules/conditions5e/icons/dead.svg") newHealth = priorHealth;
     else newHealth = "modules/conditions5e/icons/almostdead.svg";
-  }
-  else if ( curHP / maxHP < 0.5 ) newHealth = "modules/conditions5e/icons/wounded.svg";
+  } else if (curHP / maxHP < 0.5) newHealth = "modules/conditions5e/icons/wounded.svg";
   // toggleOverlay deprecated in 0.7.4
-  if ( newHealth !== priorHealth ) {
+  if (newHealth !== priorHealth) {
     if (isNewerVersion('0.7.4', game.data.version)) {
-      if ( newHealth === null ) tok.toggleEffect(priorHealth, { overlay: true });
+      if (newHealth === null) tok.toggleEffect(priorHealth, { overlay: true });
       else tok.toggleEffect(newHealth, { overlay: true });
-    }
-    else {
-      if ( newHealth === null ) tok.toggleOverlay(priorHealth);
+    } else {
+      if (newHealth === null) tok.toggleOverlay(priorHealth);
       else tok.toggleOverlay(newHealth);
     }
   }
