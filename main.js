@@ -29,33 +29,6 @@ CONFIG.statusEffects = [
   "modules/conditions5e/icons/exhaustion5.svg"
 ];
   
-// Condition Types
-CONFIG.conditionTypes = {
-  "blinded": "Blinded",
-  "charmed": "Charmed",
-  "dead": "Dead",
-  "deafened": "Deafened",
-  "diseased": "Diseased",
-  "exhaustion": "Exhaustion",
-  "exhaustion1": "Exhaustion Level 1",
-  "exhaustion2": "Exhaustion Level 2",
-  "exhaustion3": "Exhaustion Level 3",
-  "exhaustion4": "Exhaustion Level 4",
-  "exhaustion5": "Exhaustion Level 5",
-  "frightened": "Frightened",
-  "grappled": "Grappled",
-  "incapacitated": "Inacapacitated",
-  "invisible": "Invisible",
-  "paralyzed": "Paralyzed",
-  "petrified": "Petrified",
-  "poisoned": "Poisoned",
-  "prone": "Prone",
-  "restrained": "Restrained",
-  "stunned": "Stunned",
-  "unconscious": "Unconscious",
-  "wounded": "Wounded"
-};
-
 // Replace selected control icons
 CONFIG.controlIcons.visibility = "modules/conditions5e/icons/invisible.svg";
 CONFIG.controlIcons.defeated = "modules/conditions5e/icons/dead.svg";
