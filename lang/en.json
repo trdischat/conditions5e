@@ -1,0 +1,23 @@
+{
+  "EFFECT.StatusBlind": "Blind",
+  "EFFECT.StatusCharmed": "Charmed",
+  "EFFECT.StatusDead": "Dead",
+  "EFFECT.StatusDeaf": "Deaf",
+  "EFFECT.StatusDisease": "Diseased",
+  "EFFECT.StatusExhausted1": "Exhausted (Level 1)",
+  "EFFECT.StatusExhausted2": "Exhausted (Level 2)",
+  "EFFECT.StatusExhausted3": "Exhausted (Level 3)",
+  "EFFECT.StatusExhausted4": "Exhausted (Level 4)",
+  "EFFECT.StatusExhausted5": "Exhausted (Level 5)",
+  "EFFECT.StatusFear": "Frightened",
+  "EFFECT.StatusGrappled": "Grappled",
+  "EFFECT.StatusIncapacitated": "Incapacitated",
+  "EFFECT.StatusParalysis": "Paralyzed",
+  "EFFECT.StatusPetrified": "Petrified",
+  "EFFECT.StatusPoison": "Poisoned",
+  "EFFECT.StatusProne": "Prone",
+  "EFFECT.StatusRestrained": "Restrained",
+  "EFFECT.StatusStunned": "Stunned",
+  "EFFECT.StatusUnconscious": "Unconscious",
+  "EFFECT.StatusWounded": "Wounded"
+}
