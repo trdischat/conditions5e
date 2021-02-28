@@ -55,10 +55,10 @@ Hooks.once("ready", function () {
 });
 
 // Function to use token overlay to show status as wounded, unconscious, or dead
-Token.prototype._updateHealthOverlay = function (tok) {
-  let maxHP = tok.actor.data.data.attributes.hp.max;
-  let curHP = tok.actor.data.data.attributes.hp.value;
-  let priorHealth = tok.data.overlayEffect;
+Token.prototype._updateHealthOverlay = function () {
+  let maxHP = this.actor.data.data.attributes.hp.max;
+  let curHP = this.actor.data.data.attributes.hp.value;
+  let priorHealth = this.data.overlayEffect;
   let newHealth = null;
   if (curHP <= 0) {
     if (priorHealth === "modules/conditions5e/icons/dead.svg") newHealth = priorHealth;
@@ -67,22 +67,22 @@ Token.prototype._updateHealthOverlay = function (tok) {
   // toggleOverlay deprecated in 0.7.4
   if (newHealth !== priorHealth) {
     if (isNewerVersion('0.7.4', game.data.version)) {
-      if (newHealth === null) tok.toggleEffect(priorHealth, { overlay: true });
-      else tok.toggleEffect(newHealth, { overlay: true });
+      if (newHealth === null) this.toggleEffect(priorHealth, { overlay: true });
+      else this.toggleEffect(newHealth, { overlay: true });
     } else {
-      if (newHealth === null) tok.toggleOverlay(priorHealth);
-      else tok.toggleOverlay(newHealth);
+      if (newHealth === null) this.toggleOverlay(priorHealth);
+      else this.toggleOverlay(newHealth);
     }
   }
 };
 
 // This hook is required for Tokens NOT linked to an Actor
-Hooks.on("updateToken", (scene, sceneID, update, tokenData, userId) => {
+Hooks.on("updateToken", (scene, tokenData, update, options, userId) => {
   let token = canvas.tokens.get(update._id);
-  if (token.owner) token._updateHealthOverlay(token);
+  if (token.owner) token._updateHealthOverlay();
 });
 
 // This hook is required for Tokens linked to an Actor
 Hooks.on("updateActor", (entity, updated) => {
-  if (entity.owner) entity.getActiveTokens(true).map(x => x._updateHealthOverlay(x));
+  if (entity.owner) entity.getActiveTokens(true).map(x => x._updateHealthOverlay());
 });
