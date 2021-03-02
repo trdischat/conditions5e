@@ -174,11 +174,11 @@ Token.prototype._updateHealthOverlay = function () {
   // toggleOverlay deprecated in 0.7.4
   if (newHealth !== priorHealth) {
     if (isNewerVersion('0.7.4', game.data.version)) {
-      if (newHealth === null) this.toggleEffect(priorHealth, { overlay: true });
-      else this.toggleEffect(newHealth, { overlay: true });
-    } else {
       if (newHealth === null) this.toggleOverlay(priorHealth);
       else this.toggleOverlay(newHealth);
+    } else {
+      if (newHealth === null) this.toggleEffect(priorHealth, { overlay: true });
+      else this.toggleEffect(newHealth, { overlay: true });
     }
   }
 };
